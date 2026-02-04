@@ -1,442 +1,701 @@
-
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia do Estudante: a jornada até os seus sonhos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Guia completo para aprovação no ENEM 2026. Estratégias, Redação, Neurociência, Cronogramas e Saúde Mental.">
+    <meta name="keywords" content="ENEM, vestibular, estudo, TRI, redação, cronograma, sisu, prouni">
+    <meta name="author" content="Alessandro Mozer">
+    <meta name="theme-color" content="#020617">
+    <meta property="og:title" content="Guia do Estudante: A Jornada">
+    <meta property="og:description" content="Sua plataforma de streaming educacional para conquistar a aprovação.">
+    <meta property="og:type" content="website">
+    
+    <title>Guia do Estudante: A Jornada | Alessandro Mozer</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind & Icons -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
     <style>
         :root {
-            --bg-dark: #020617;
-            --card-bg: #1e293b;
-            --accent: #e11d48;
+            --bg-deep: #020617;
+            --rose-primary: #e11d48;
+            --rose-glow: rgba(225, 29, 72, 0.4);
+            --glass-bg: rgba(15, 23, 42, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
+        
         body {
-            background-color: var(--bg-dark);
-            color: white;
-            font-family: 'Inter', sans-serif;
-            scroll-behavior: smooth;
+            background-color: var(--bg-deep);
+            color: #e2e8f0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
-        .hero-gradient {
-            background: linear-gradient(to right, rgba(2, 6, 23, 0.95), rgba(2, 6, 23, 0.4)), 
-                        url('https://images.unsplash.com/photo-1523050853051-be991f85a6ad?auto=format&fit=crop&q=80&w=1600');
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Hero Background */
+        .hero-bg {
+            background: linear-gradient(to bottom, transparent, var(--bg-deep)),
+                        linear-gradient(to right, rgba(2,6,23,0.9), rgba(2,6,23,0.6)),
+                        url('https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&q=80&w=2000');
             background-size: cover;
             background-position: center;
-        }
-        .episode-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid #1e293b;
-        }
-        .episode-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
-            background-color: #0f172a;
-        }
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        
-        .modal-overlay {
-            backdrop-filter: blur(12px);
-            background: rgba(0, 0, 0, 0.9);
+            background-attachment: fixed;
         }
 
-        .category-tag {
-            font-size: 0.65rem;
-            padding: 2px 8px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--rose-primary); }
+
+        /* Animations */
+        .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .card-hover:hover { transform: translateY(-5px); border-color: var(--rose-primary); box-shadow: 0 10px 30px -10px var(--rose-glow); }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        
+        .episode-locked { opacity: 0.6; filter: grayscale(1); }
+        .fullscreen-modal { width: 100% !important; height: 100% !important; max-width: 100% !important; border-radius: 0 !important; }
     </style>
 </head>
-<body class="custom-scrollbar overflow-x-hidden">
+<body class="selection:bg-rose-600 selection:text-white">
 
-    <!-- Navegação Superior -->
-    <nav class="fixed w-full z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800 px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center gap-2">
-            <div class="bg-rose-600 p-1.5 rounded-lg">
-                <i class="fas fa-play text-white text-xs"></i>
+    <!-- NAV BAR -->
+    <nav class="fixed w-full z-50 glass-panel border-b-0 top-0 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 md:h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-9 h-9 bg-rose-600 rounded-lg flex items-center justify-center shadow-lg shadow-rose-900/50">
+                        <i class="fas fa-play text-white text-xs"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-black tracking-tighter italic text-white leading-none">JORNADA</h1>
+                        <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest block">Alessandro Mozer</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-6">
+                    <div class="relative group">
+                        <input type="text" id="desktop-search" placeholder="Buscar episódio..." class="bg-slate-900/50 border border-white/10 rounded-full py-2 pl-10 pr-4 text-xs w-48 focus:w-64 transition-all focus:border-rose-500 focus:outline-none text-white">
+                        <i class="fas fa-search absolute left-3.5 top-2.5 text-slate-500 text-xs"></i>
+                    </div>
+
+                    <div class="h-6 w-px bg-white/10 mx-2"></div>
+
+                    <!-- Gamification Stats -->
+                    <div class="flex items-center gap-4 text-xs font-bold uppercase tracking-wide text-slate-400">
+                        <div class="flex items-center gap-1 cursor-help" title="Dias seguidos estudando">
+                            <i class="fas fa-fire text-orange-500"></i> <span id="streak-counter">0</span> Dias
+                        </div>
+                        <div class="flex items-center gap-1 cursor-help" title="Nível atual">
+                            <i class="fas fa-trophy text-yellow-500"></i> <span id="user-level">Novato</span>
+                        </div>
+                    </div>
+
+                    <button onclick="toggleTools()" class="text-slate-300 hover:text-white transition tooltip" title="Ferramentas"><i class="fas fa-toolbox"></i></button>
+                    <button onclick="toggleChat()" class="bg-rose-600 hover:bg-rose-700 text-white px-5 py-2 rounded-full transition shadow-lg shadow-rose-900/20 text-xs font-bold flex items-center gap-2">
+                        <i class="fas fa-robot"></i> Mentor IA
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-white text-xl p-2"><i class="fas fa-bars"></i></button>
             </div>
-            <span class="text-xl font-black tracking-tighter italic">JORNADA</span>
         </div>
-        <div class="hidden md:flex gap-8 text-sm font-bold tracking-wide uppercase">
-            <a href="#home" class="hover:text-rose-500 transition">Início</a>
-            <a href="#temporadas" class="hover:text-rose-500 transition">Temporadas</a>
-            <a href="#checklist" class="hover:text-rose-500 transition">Progresso</a>
+        
+        <!-- Global Progress Line -->
+        <div class="w-full h-1 bg-slate-800 relative group cursor-pointer" title="Seu progresso total">
+            <div id="global-progress-line" class="h-full bg-gradient-to-r from-rose-600 to-orange-500 w-0 transition-all duration-1000 relative">
+                <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_10px_white] opacity-0 group-hover:opacity-100 transition"></div>
+            </div>
         </div>
-        <button class="bg-rose-600 px-4 py-2 rounded-full text-xs font-bold hover:bg-rose-700 transition">MATRÍCULA ABERTA</button>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="relative h-[85vh] flex items-center px-6 md:px-20 hero-gradient">
-        <div class="max-w-4xl space-y-6">
-            <div class="flex items-center gap-2 text-rose-500 font-bold tracking-widest text-sm uppercase">
-                <i class="fas fa-check-circle"></i> Conteúdo Atualizado 2026
+    <!-- MOBILE MENU DRAWER -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl hidden flex-col p-8 transition-opacity duration-300">
+        <div class="flex justify-between items-center mb-10">
+            <span class="text-white font-bold text-xl tracking-widest">MENU</span>
+            <button onclick="toggleMobileMenu()" class="text-white text-2xl"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <input type="text" id="mobile-search" placeholder="O que você quer aprender?" class="w-full bg-slate-800 border border-white/10 rounded-xl py-4 px-4 text-white mb-8 focus:border-rose-500 focus:outline-none">
+
+        <div class="flex flex-col gap-6 text-lg font-bold text-slate-300">
+            <a href="#catalogo" onclick="toggleMobileMenu()" class="flex items-center gap-3 hover:text-rose-500 transition"><i class="fas fa-list w-6"></i> Catálogo</a>
+            <a href="#" onclick="filterFavorites(); toggleMobileMenu()" class="flex items-center gap-3 hover:text-rose-500 transition"><i class="fas fa-heart w-6"></i> Meus Favoritos</a>
+            <a href="#" onclick="toggleTools(); toggleMobileMenu()" class="flex items-center gap-3 hover:text-rose-500 transition"><i class="fas fa-calculator w-6"></i> Ferramentas</a>
+            <a href="#" onclick="toggleChat(); toggleMobileMenu()" class="flex items-center gap-3 hover:text-rose-500 transition"><i class="fas fa-robot w-6"></i> Mentor IA</a>
+        </div>
+
+        <div class="mt-auto pt-8 border-t border-white/10">
+            <div class="flex justify-between text-sm text-slate-400 mb-2">
+                <span>Progresso Geral</span>
+                <span id="mobile-progress-text" class="text-white font-bold">0%</span>
             </div>
-            <h1 class="text-5xl md:text-8xl font-black leading-tight">O Guia Supremo da <span class="text-rose-600">Aprovação.</span></h1>
-            <p class="text-lg md:text-xl text-gray-300 max-w-2xl">Mergulhe em 10 temporadas de estratégias puras. Da neurociência do estudo ao dia da matrícula, aprenda o que as escolas não ensinam.</p>
-            <div class="flex flex-wrap gap-4 pt-4">
-                <button onclick="document.getElementById('temporadas').scrollIntoView()" class="bg-white text-black px-8 py-3 rounded-lg font-black flex items-center gap-3 hover:bg-gray-200 transition">
-                    <i class="fas fa-list"></i> EXPLORAR TEMPORADAS
+            <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div id="mobile-progress-bar" class="h-full bg-rose-600 w-0"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <header id="home" class="relative min-h-[85vh] flex items-center justify-center hero-bg px-4">
+        <div class="text-center max-w-5xl mx-auto pt-20 animate-fade-in">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-rose-500/30 mb-8">
+                <span class="w-2 h-2 bg-rose-500 rounded-full animate-pulse"></span>
+                <span class="text-[10px] md:text-xs font-bold uppercase tracking-widest text-rose-200">Plataforma 2026 • v3.0 Ultimate</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-8 drop-shadow-2xl">
+                SUA JORNADA <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-orange-400">ATÉ O "APROVADO".</span>
+            </h1>
+            
+            <p class="text-base md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed mb-10 font-light">
+                Mais que um ebook. Uma experiência de streaming educacional com 10 temporadas estratégicas, gamificação e inteligência artificial.
+            </p>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4">
+                <button onclick="document.getElementById('catalogo').scrollIntoView()" class="w-full md:w-auto bg-rose-600 hover:bg-rose-700 text-white px-8 py-4 rounded-xl font-bold text-sm tracking-wide transition transform hover:scale-105 shadow-[0_0_20px_rgba(225,29,72,0.4)] flex items-center justify-center gap-2">
+                    <i class="fas fa-play"></i> INICIAR MARATONA
                 </button>
-                <button onclick="loadEpisode(3, 1)" class="bg-rose-600 text-white px-8 py-3 rounded-lg font-black flex items-center gap-3 hover:bg-rose-700 transition">
-                    <i class="fas fa-fire"></i> MASTERCLASS REDAÇÃO
+                <button onclick="filterFavorites()" class="w-full md:w-auto glass-panel hover:bg-white/10 text-white px-8 py-4 rounded-xl font-bold text-sm transition border border-white/10 flex items-center justify-center gap-2">
+                    <i class="fas fa-heart"></i> FAVORITOS
                 </button>
             </div>
         </div>
-    </section>
+    </header>
 
-    <!-- Grade de Temporadas Dinâmica -->
-    <main id="temporadas" class="py-20 px-6 md:px-20 space-y-24">
-        
-        <!-- T1 - O Sistema -->
-        <section>
-            <div class="flex flex-col mb-10">
-                <span class="text-rose-500 font-bold text-sm tracking-widest uppercase">Temporada 01</span>
-                <h2 class="text-4xl font-black italic">AS REGRAS DO JOGO</h2>
-                <div class="h-1 w-24 bg-rose-600 mt-2"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(1, 1)">
-                    <span class="category-tag bg-blue-500/20 text-blue-400 mb-2 inline-block">Estratégia</span>
-                    <h3 class="text-xl font-bold mb-2">1.1 O Código TRI</h3>
-                    <p class="text-gray-400 text-sm">Entenda como o algoritmo do ENEM decide a sua nota através da coerência pedagógica.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(1, 2)">
-                    <span class="category-tag bg-green-500/20 text-green-400 mb-2 inline-block">Portas de Entrada</span>
-                    <h3 class="text-xl font-bold mb-2">1.2 O Mapa das Vagas</h3>
-                    <p class="text-gray-400 text-sm">SISU, ProUni, FIES e a nova Lei de Cotas: Como escolher a sua melhor chance.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(1, 3)">
-                    <span class="category-tag bg-purple-500/20 text-purple-400 mb-2 inline-block">Logística</span>
-                    <h3 class="text-xl font-bold mb-2">1.3 Calendário de Guerra</h3>
-                    <p class="text-gray-400 text-sm">Datas críticas, períodos de isenção e como não perder os prazos fatais.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- T2 - Neurociência -->
-        <section>
-            <div class="flex flex-col mb-10">
-                <span class="text-rose-500 font-bold text-sm tracking-widest uppercase">Temporada 02</span>
-                <h2 class="text-4xl font-black italic">MÁQUINA DE APRENDER</h2>
-                <div class="h-1 w-24 bg-rose-600 mt-2"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(2, 1)">
-                    <span class="category-tag bg-yellow-500/20 text-yellow-400 mb-2 inline-block">Neurociência</span>
-                    <h3 class="text-xl font-bold mb-2">2.1 Estudo Ativo vs Passivo</h3>
-                    <p class="text-gray-400 text-sm">Por que ler e sublinhar é perda de tempo e como forçar o cérebro a memorizar.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(2, 2)">
-                    <span class="category-tag bg-orange-500/20 text-orange-400 mb-2 inline-block">Memorização</span>
-                    <h3 class="text-xl font-bold mb-2">2.2 Repetição Espaçada</h3>
-                    <p class="text-gray-400 text-sm">A Curva do Esquecimento e como usar o Anki para nunca mais esquecer fórmulas.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(2, 3)">
-                    <span class="category-tag bg-cyan-500/20 text-cyan-400 mb-2 inline-block">Foco</span>
-                    <h3 class="text-xl font-bold mb-2">2.3 Deep Work e Pomodoro</h3>
-                    <p class="text-gray-400 text-sm">Como entrar em estado de fluxo e eliminar distrações digitais.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- T3 - Redação -->
-        <section>
-            <div class="flex flex-col mb-10">
-                <span class="text-rose-500 font-bold text-sm tracking-widest uppercase">Temporada 03</span>
-                <h2 class="text-4xl font-black italic">ENGENHARIA DA NOTA 1000</h2>
-                <div class="h-1 w-24 bg-rose-600 mt-2"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(3, 1)">
-                    <span class="category-tag bg-rose-500/20 text-rose-400 mb-2 inline-block">Estrutura</span>
-                    <h3 class="text-xl font-bold mb-2">3.1 O Esqueleto Infalível</h3>
-                    <p class="text-gray-400 text-sm">Os 4 parágrafos sagrados: Introdução, D1, D2 e Conclusão.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(3, 2)">
-                    <span class="category-tag bg-rose-500/20 text-rose-400 mb-2 inline-block">Repertório</span>
-                    <h3 class="text-xl font-bold mb-2">3.2 Repertórios Coringa</h3>
-                    <p class="text-gray-400 text-sm">Filosofia, Sociologia e cultura pop que cabem em qualquer tema.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(3, 3)">
-                    <span class="category-tag bg-rose-500/20 text-rose-400 mb-2 inline-block">Gramática</span>
-                    <h3 class="text-xl font-bold mb-2">3.3 Conectivos e Coesão</h3>
-                    <p class="text-gray-400 text-sm">Como usar operadores argumentativos para ligar as ideias perfeitamente.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- T4 & T5 - Matérias -->
-        <section>
-            <div class="flex flex-col mb-10">
-                <span class="text-rose-500 font-bold text-sm tracking-widest uppercase">Temporadas 04 & 05</span>
-                <h2 class="text-4xl font-black italic">DOMÍNIO DE CONTEÚDO</h2>
-                <div class="h-1 w-24 bg-rose-600 mt-2"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(4, 1)">
-                    <h3 class="text-xl font-bold mb-2">4.1 O Segredo das Exatas</h3>
-                    <p class="text-gray-400 text-sm">Matemática Básica e os temas de Natureza que mais caem.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(5, 1)">
-                    <h3 class="text-xl font-bold mb-2">5.1 Humanas e Linguagens</h3>
-                    <p class="text-gray-400 text-sm">Como interpretar textos cansativos e entender processos históricos.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(4, 2)">
-                    <h3 class="text-xl font-bold mb-2">4.2 Biologia Celular e Ecologia</h3>
-                    <p class="text-gray-400 text-sm">O mapa completo dos fenômenos biológicos no ENEM.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- T6 & T7 - Mental e Reta Final -->
-        <section>
-            <div class="flex flex-col mb-10">
-                <span class="text-rose-500 font-bold text-sm tracking-widest uppercase">Temporadas 06 & 07</span>
-                <h2 class="text-4xl font-black italic">MODO SOBREVIVÊNCIA</h2>
-                <div class="h-1 w-24 bg-rose-600 mt-2"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(6, 1)">
-                    <h3 class="text-xl font-bold mb-2">6.1 Anti-Burnout</h3>
-                    <p class="text-gray-400 text-sm">Saúde mental, sono e alimentação: o combustível da sua aprovação.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(7, 1)">
-                    <h3 class="text-xl font-bold mb-2">7.1 Simulados de Guerra</h3>
-                    <p class="text-gray-400 text-sm">Como treinar resistência física e psicológica para 5 horas de prova.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(7, 2)">
-                    <h3 class="text-xl font-bold mb-2">7.2 Revisão de Véspera</h3>
-                    <p class="text-gray-400 text-sm">O que fazer (e o que NÃO fazer) nos últimos 7 dias.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- T8, T9 & T10 - O Pós -->
-        <section>
-            <div class="flex flex-col mb-10">
-                <span class="text-rose-500 font-bold text-sm tracking-widest uppercase">Temporadas 08 a 10</span>
-                <h2 class="text-4xl font-black italic">O DIA DA GLÓRIA</h2>
-                <div class="h-1 w-24 bg-rose-600 mt-2"></div>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(8, 1)">
-                    <h3 class="text-xl font-bold mb-2">8.1 Checklist do Dia D</h3>
-                    <p class="text-gray-400 text-sm">Documentos, canetas, lanches e a gestão do tempo por questão.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(9, 1)">
-                    <h3 class="text-xl font-bold mb-2">9.1 O Luto do Gabarito</h3>
-                    <p class="text-gray-400 text-sm">Como lidar com a ansiedade pós-prova e conferir gabaritos extraoficiais.</p>
-                </div>
-                <div class="episode-card bg-slate-900 rounded-xl p-6 cursor-pointer" onclick="loadEpisode(10, 1)">
-                    <h3 class="text-xl font-bold mb-2">10.1 A Matrícula</h3>
-                    <p class="text-gray-400 text-sm">A lista de documentos final para não perder a sua vaga conquistada.</p>
-                </div>
-            </div>
-        </section>
-
+    <!-- CATALOGO -->
+    <main id="catalogo" class="max-w-7xl mx-auto px-4 md:px-8 py-20 space-y-24">
+        <!-- JS injetará o conteúdo aqui -->
     </main>
 
-    <!-- Modal de Conteúdo -->
-    <div id="player-modal" class="modal-overlay fixed inset-0 z-[100] hidden items-center justify-center p-4">
-        <div class="bg-slate-900 w-full max-w-5xl max-h-[92vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col border border-slate-700">
-            <div class="p-6 bg-slate-800 flex justify-between items-center border-b border-slate-700">
-                <div id="player-label" class="text-rose-500 text-xs font-black uppercase tracking-widest">SÉRIE ORIGINAL</div>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-white transition text-2xl">
+    <!-- FOOTER -->
+    <footer class="border-t border-white/5 bg-[#010101] py-20 px-4 text-center">
+        <div class="max-w-3xl mx-auto space-y-8">
+            <h2 class="text-3xl font-black italic tracking-tighter text-slate-700">JORNADA</h2>
+            <p class="text-slate-500 text-sm">Desenvolvido por <strong>Alessandro Mozer</strong>.<br>Conteúdo atualizado para o ciclo 2026/2027.</p>
+            <div class="flex justify-center gap-6 text-2xl text-slate-600">
+                <a href="#" class="hover:text-rose-600 transition"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-rose-600 transition"><i class="fab fa-tiktok"></i></a>
+                <a href="#" class="hover:text-rose-600 transition"><i class="fab fa-youtube"></i></a>
+            </div>
+            <p class="text-[10px] text-slate-800 font-bold uppercase tracking-widest mt-8">© 2026 Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL DE EPISÓDIO (IMERSIVO) -->
+    <div id="episode-modal" class="fixed inset-0 z-[60] hidden opacity-0 transition-opacity duration-300 flex items-center justify-center p-0 md:p-6">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="closeModal()"></div>
+        
+        <div id="modal-content-box" class="relative bg-slate-900 w-full h-full md:rounded-3xl border border-white/10 shadow-2xl flex flex-col md:flex-row overflow-hidden animate-fade-in transition-all duration-300">
+            
+            <!-- Controles do Modal -->
+            <div class="absolute top-4 right-4 z-50 flex gap-2">
+                <button onclick="toggleFullscreen()" class="w-10 h-10 bg-black/50 hover:bg-white/10 rounded-full text-white flex items-center justify-center transition backdrop-blur-md border border-white/10" title="Modo Imersivo">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button onclick="closeModal()" class="w-10 h-10 bg-black/50 hover:bg-rose-600 rounded-full text-white flex items-center justify-center transition backdrop-blur-md border border-white/10">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="p-8 md:p-14 overflow-y-auto custom-scrollbar space-y-10">
-                <h2 id="player-title" class="text-4xl md:text-6xl font-black leading-tight">Título do Episódio</h2>
-                <div id="player-content" class="text-gray-300 text-lg md:text-xl leading-relaxed space-y-8">
-                    <!-- Conteúdo será injetado aqui -->
+
+            <!-- Sidebar (Esquerda) -->
+            <div class="w-full md:w-80 bg-slate-950 p-6 flex flex-col border-r border-white/5 shrink-0 overflow-y-auto custom-scrollbar">
+                <div class="mb-6">
+                    <span id="modal-tag" class="text-rose-500 text-[10px] font-bold uppercase tracking-[0.2em] mb-2 block">TEMPORADA 1</span>
+                    <h2 id="modal-title" class="text-2xl font-black text-white mb-4 leading-tight">Título</h2>
+                    <div class="flex gap-2 mb-6">
+                        <span class="px-2 py-1 bg-white/5 rounded text-[10px] uppercase font-bold text-slate-400 border border-white/5"><i class="far fa-clock"></i> 15 min</span>
+                        <button id="btn-fav" onclick="toggleFavorite()" class="px-2 py-1 bg-white/5 rounded text-[10px] uppercase font-bold text-slate-400 border border-white/5 hover:text-rose-500 transition"><i class="far fa-heart"></i> Favoritar</button>
+                    </div>
+                </div>
+
+                <!-- Ações -->
+                <div class="space-y-3 mb-8">
+                    <button id="btn-concluir" class="w-full py-3 bg-slate-800 hover:bg-green-600 text-white rounded-lg font-bold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2 border border-white/5">
+                        <i class="far fa-circle"></i> Concluir
+                    </button>
+                    <a id="modal-link-video" href="#" target="_blank" class="w-full py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-bold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2 shadow-lg shadow-rose-900/20">
+                        <i class="fab fa-youtube"></i> Vídeo Aula
+                    </a>
+                </div>
+
+                <!-- Ferramentas do Episódio -->
+                <div class="mt-auto space-y-6">
+                    <!-- Pomodoro Mini -->
+                    <div class="bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-xs font-bold text-slate-400">FOCUS TIMER</span>
+                            <span id="pomo-display" class="text-lg font-mono font-bold text-white">25:00</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="pomo-btn" onclick="togglePomodoro()" class="flex-1 py-1.5 bg-slate-800 text-xs text-rose-400 font-bold rounded hover:bg-slate-700 transition">INICIAR</button>
+                            <button onclick="resetPomodoro()" class="py-1.5 px-3 bg-slate-800 text-xs text-slate-400 font-bold rounded hover:bg-slate-700 transition"><i class="fas fa-redo"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Bloco de Notas -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-xs font-bold text-slate-400 block">ANOTAÇÕES</label>
+                            <button onclick="downloadNotes()" class="text-[10px] text-rose-500 hover:text-white uppercase font-bold"><i class="fas fa-download"></i> Baixar</button>
+                        </div>
+                        <textarea id="user-notes" class="w-full h-32 bg-slate-900 border border-white/10 rounded-lg p-3 text-xs text-white focus:outline-none focus:border-rose-500 resize-none font-mono" placeholder="Digite seus insights..."></textarea>
+                    </div>
                 </div>
             </div>
-            <div class="p-6 bg-slate-950 flex justify-between items-center">
-                <div class="text-slate-500 text-sm font-bold">Leitura estimada: 12 min</div>
-                <button onclick="closeModal()" class="bg-rose-600 text-white px-10 py-3 rounded-lg font-black hover:bg-rose-700 transition">ENTENDIDO</button>
+
+            <!-- Conteúdo Principal (Direita) -->
+            <div class="flex-grow bg-[#0a0a0a] flex flex-col relative">
+                <div class="flex-grow overflow-y-auto custom-scrollbar p-6 md:p-16">
+                    <div id="modal-body" class="prose prose-invert prose-lg max-w-3xl mx-auto text-slate-300 leading-loose">
+                        <!-- Injetado via JS -->
+                    </div>
+                    
+                    <!-- Fonte Oficial Link -->
+                    <div class="mt-12 pt-8 border-t border-white/10 max-w-3xl mx-auto">
+                        <a id="modal-link-source" href="#" target="_blank" class="flex items-center gap-3 text-slate-500 hover:text-rose-500 transition text-sm font-bold uppercase tracking-widest">
+                            <i class="fas fa-external-link-alt"></i> Acessar Fonte Profissional
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Footer Navegação -->
+                <div class="p-4 border-t border-white/5 bg-slate-950 flex justify-between items-center">
+                    <button onclick="navigateEpisode(-1)" class="text-slate-400 hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2"><i class="fas fa-chevron-left"></i> Anterior</button>
+                    <button onclick="navigateEpisode(1)" class="text-slate-400 hover:text-white text-xs font-bold uppercase tracking-widest flex items-center gap-2">Próximo <i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MENTOR IA -->
+    <div id="chat-window" class="fixed bottom-0 right-0 md:bottom-6 md:right-6 w-full md:w-[400px] h-[85vh] md:h-[600px] bg-slate-900 md:rounded-3xl shadow-2xl z-[70] transform translate-y-[110%] transition-transform duration-500 border border-white/10 flex flex-col">
+        <div class="p-4 bg-gradient-to-r from-rose-700 to-rose-600 flex justify-between items-center md:rounded-t-3xl shadow-lg cursor-pointer" onclick="toggleChat()">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-white"><i class="fas fa-brain"></i></div>
+                <div><h3 class="font-bold text-white text-sm">Mentor IA</h3><p class="text-[9px] text-white/80 uppercase tracking-wider font-bold">Online</p></div>
+            </div>
+            <i class="fas fa-chevron-down text-white"></i>
+        </div>
+        <div id="chat-messages" class="flex-grow overflow-y-auto p-4 space-y-4 bg-[#050505]">
+            <div class="flex gap-3">
+                <div class="w-8 h-8 rounded-full bg-rose-600 flex-shrink-0 flex items-center justify-center text-xs text-white"><i class="fas fa-robot"></i></div>
+                <div class="bg-slate-800 p-3 rounded-2xl rounded-tl-none border border-white/5 text-sm text-slate-300 max-w-[85%]">
+                    Olá! Sou seu Mentor de Estudos. Posso ajudar com dúvidas sobre o conteúdo, corrigir rascunhos de redação ou criar cronogramas.
+                </div>
+            </div>
+        </div>
+        <div class="p-4 bg-slate-900 border-t border-white/5">
+            <form id="chat-form" class="relative">
+                <input type="text" id="chat-input" placeholder="Digite sua dúvida..." class="w-full bg-black border border-slate-700 rounded-xl py-3 pl-4 pr-12 text-sm text-white focus:outline-none focus:border-rose-500 transition">
+                <button type="submit" class="absolute right-2 top-2 bg-rose-600 hover:bg-rose-500 w-8 h-8 rounded-lg text-white flex items-center justify-center transition"><i class="fas fa-paper-plane text-xs"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL FERRAMENTAS -->
+    <div id="tools-modal" class="fixed inset-0 z-[65] hidden bg-black/80 backdrop-blur items-center justify-center p-4">
+        <div class="bg-slate-900 w-full max-w-2xl rounded-2xl border border-white/10 p-0 relative animate-fade-in overflow-hidden flex flex-col max-h-[90vh]">
+            
+            <!-- Header Ferramentas -->
+            <div class="p-4 border-b border-white/10 flex justify-between items-center bg-slate-950">
+                <h2 class="text-lg font-bold text-white flex items-center gap-2"><i class="fas fa-toolbox text-rose-500"></i> Ferramentas do Estudante</h2>
+                <button onclick="toggleTools()" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex border-b border-white/10 text-xs font-bold uppercase tracking-widest">
+                <button onclick="switchTool('calc')" class="flex-1 py-3 bg-slate-800 text-white border-b-2 border-rose-500 transition">Calculadora</button>
+                <button onclick="switchTool('sisu')" class="flex-1 py-3 hover:bg-slate-800 text-slate-400 transition">Simulador SISU</button>
+                <button onclick="switchTool('crono')" class="flex-1 py-3 hover:bg-slate-800 text-slate-400 transition">Cronograma</button>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 overflow-y-auto custom-scrollbar">
+                
+                <!-- 1. Calculadora -->
+                <div id="tool-calc" class="space-y-4">
+                    <h3 class="text-white font-bold mb-4">Calculadora Média Simples</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-2">
+                        <div><label class="text-[10px] uppercase font-bold text-slate-500">Ling</label><input type="number" id="nota-lin" class="w-full bg-black border border-slate-700 rounded p-2 text-white text-sm"></div>
+                        <div><label class="text-[10px] uppercase font-bold text-slate-500">Hum</label><input type="number" id="nota-hum" class="w-full bg-black border border-slate-700 rounded p-2 text-white text-sm"></div>
+                        <div><label class="text-[10px] uppercase font-bold text-slate-500">Nat</label><input type="number" id="nota-nat" class="w-full bg-black border border-slate-700 rounded p-2 text-white text-sm"></div>
+                        <div><label class="text-[10px] uppercase font-bold text-slate-500">Mat</label><input type="number" id="nota-mat" class="w-full bg-black border border-slate-700 rounded p-2 text-white text-sm"></div>
+                        <div><label class="text-[10px] uppercase font-bold text-rose-500">Red</label><input type="number" id="nota-red" class="w-full bg-black border border-rose-500/50 rounded p-2 text-white text-sm"></div>
+                    </div>
+                    <button onclick="calcularMedia()" class="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-lg transition mt-4">CALCULAR</button>
+                    <div id="resultado-media" class="hidden text-center p-4 bg-slate-800 rounded-lg border border-white/5 mt-4">
+                        <span class="text-xs text-slate-400 block">Sua Média:</span>
+                        <span class="text-3xl font-black text-white" id="valor-media">000.0</span>
+                    </div>
+                </div>
+
+                <!-- 2. Simulador SISU (Mock) -->
+                <div id="tool-sisu" class="hidden space-y-4">
+                    <h3 class="text-white font-bold mb-4">Simulador de Chances</h3>
+                    <input type="text" placeholder="Curso desejado (Ex: Medicina)" class="w-full bg-black border border-slate-700 rounded p-3 text-white text-sm mb-2">
+                    <input type="number" placeholder="Sua Média Aproximada" class="w-full bg-black border border-slate-700 rounded p-3 text-white text-sm">
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition mt-2">SIMULAR</button>
+                    <p class="text-xs text-slate-500 mt-2">*Baseado em notas de corte de 2024. Dados simulados.</p>
+                </div>
+
+                <!-- 3. Cronograma -->
+                <div id="tool-crono" class="hidden space-y-4">
+                    <h3 class="text-white font-bold mb-4">Gerador de Ciclo de Estudos</h3>
+                    <div><label class="text-xs text-slate-400">Horas disponíveis por dia:</label><input type="number" value="4" class="w-full bg-black border border-slate-700 rounded p-2 text-white"></div>
+                    <button class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition mt-2">GERAR CICLO</button>
+                    <div class="bg-slate-800 p-4 rounded text-xs text-slate-300 mt-2">
+                        Sugestão: 1h Matemática, 1h Natureza, 1h Redação, 1h Revisão.
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script>
-        const contentData = {
-            "1-1": {
-                label: "T1 • Episódio 1.1",
-                title: "O Código Secreto: TRI",
-                text: `
-                    <p>A <strong>TRI (Teoria de Resposta ao Item)</strong> não é apenas um sistema de correção, é um detetor de mentiras educacional. Ela mede a <em>coerência</em> da sua prova.</p>
-                    <div class="bg-slate-800 p-8 rounded-2xl border-l-8 border-rose-600 my-8">
-                        <h4 class="font-bold text-white text-2xl mb-4 italic">A Lógica do Algoritmo:</h4>
-                        <ul class="space-y-4">
-                            <li><strong class="text-rose-500">Parâmetro de Dificuldade:</strong> Cada questão é pré-testada.</li>
-                            <li><strong class="text-rose-500">Antichute:</strong> Se acerta uma Difícil e erra uma Fácil do mesmo assunto, o sistema "pune" sua nota por falta de lógica.</li>
-                            <li><strong class="text-rose-500">Estratégia:</strong> Varra a prova em busca das fáceis. Elas valem o seu peso em ouro!</li>
-                        </ul>
-                    </div>
-                    <p>Aprofunde-se no site oficial do INEP: <a href="https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem" class="text-rose-400 underline" target="_blank">Portal do ENEM</a>.</p>
-                    <p></p>
-                `
-            },
-            "1-2": {
-                label: "T1 • Episódio 1.2",
-                title: "O Mapa das Vagas: SISU e Além",
-                text: `
-                    <p>Você fez o ENEM. Agora, tem 3 armas principais:</p>
-                    <div class="grid md:grid-cols-3 gap-6 my-10">
-                        <div class="bg-slate-800 p-6 rounded-xl border border-blue-500/30">
-                            <h5 class="text-blue-400 font-black mb-2 uppercase">SISU</h5>
-                            <p class="text-sm">Universidades Públicas. Sem mensalidade. A disputa é bruta.</p>
-                        </div>
-                        <div class="bg-slate-800 p-6 rounded-xl border border-green-500/30">
-                            <h5 class="text-green-400 font-black mb-2 uppercase">ProUni</h5>
-                            <p class="text-sm">Bolsas em Particulares. Integral (1,5 salários/pessoa) ou Parcial.</p>
-                        </div>
-                        <div class="bg-slate-800 p-6 rounded-xl border border-yellow-500/30">
-                            <h5 class="text-yellow-400 font-black mb-2 uppercase">FIES</h5>
-                            <p class="text-sm">Financiamento. Estuda agora, paga depois de formado.</p>
-                        </div>
-                    </div>
-                    <p><strong>Atenção à Lei de Cotas:</strong> A nova regra de 2024 diz que todos os cotistas concorrem primeiro na Ampla Concorrência, protegendo as vagas de reserva.</p>
-                `
-            },
-            "2-1": {
-                label: "T2 • Episódio 2.1",
-                title: "Cérebro em Chamas: Estudo Ativo",
-                text: `
-                    <p>Ler o livro e sublinhar com caneta neon dá uma ilusão de aprendizado. O cérebro só grava o que ele é <em>forçado a recuperar</em>.</p>
-                    <div class="bg-slate-950 p-8 rounded-3xl border border-slate-700">
-                        <h4 class="text-white font-bold mb-4">A Pirâmide de Aprendizagem:</h4>
-                        <ul class="space-y-2">
-                            <li><span class="text-rose-500">10%</span> Lendo</li>
-                            <li><span class="text-rose-500">20%</span> Ouvindo</li>
-                            <li><span class="text-rose-500">70%</span> Praticando (Questões)</li>
-                            <li><span class="text-rose-500">95%</span> Ensinando a outra pessoa</li>
-                        </ul>
-                    </div>
-                    <p>Use o <a href="https://pt.khanacademy.org/" class="text-rose-400 underline" target="_blank">Khan Academy</a> para praticar exercícios interativos gratuitamente.</p>
-                `
-            },
-            "2-2": {
-                label: "T2 • Episódio 2.2",
-                title: "Vencendo o Esquecimento",
-                text: `
-                    <p>A <strong>Curva do Esquecimento</strong> prova que em 24h você esquece 70% do que estudou. A solução é a <strong>Repetição Espaçada</strong>.</p>
-                    <p>Recomendo fortemente o uso do software <strong>ANKI</strong>. Ele usa algoritmos para te mostrar o conteúdo exatamente no momento em que você está prestes a esquecer.</p>
-                    <p></p>
-                `
-            },
-            "3-1": {
-                label: "T3 • Episódio 3.1",
-                title: "Engenharia da Redação",
-                text: `
-                    <p>O ENEM quer um texto <strong>Dissertativo-Argumentativo</strong>. Não é para dar opinião, é para analisar um problema e propor uma solução técnica.</p>
-                    <h4 class="text-white font-bold mt-6">A Fórmula do GOMIF (Competência 5):</h4>
-                    <div class="bg-rose-900/10 p-6 rounded-xl border border-rose-500/30">
-                        <p><strong>G</strong>overno (Agente)</p>
-                        <p><strong>O</strong>bjetivo (Efeito)</p>
-                        <p><strong>M</strong>eio/Modo (Como)</p>
-                        <p><strong>I</strong>niciativa (Ação)</p>
-                        <p><strong>F</strong>inalização (Detalhamento)</p>
-                    </div>
-                    <p>Assista aos vídeos da <a href="https://www.youtube.com/@redacaonline" class="text-rose-400 underline" target="_blank">Redação Online</a> para modelos prontos.</p>
-                `
-            },
-            "3-2": {
-                label: "T3 • Episódio 3.2",
-                title: "Repertórios Coringa: O trunfo",
-                text: `
-                    <p>Repertório é o conhecimento externo (livros, filmes, história) que valida seu argumento. Tenha 3 coringas:</p>
-                    <ul class="list-disc pl-6 space-y-4">
-                        <li><strong>Modernidade Líquida (Zygmunt Bauman):</strong> Perfeito para temas de relações sociais e internet.</li>
-                        <li><strong>Contrato Social (John Locke/Rousseau):</strong> Serve para qualquer tema onde o Estado falha em proteger o cidadão.</li>
-                        <li><strong>Constituição Federal de 1988:</strong> O argumento supremo. Se a lei diz que é direito e não está acontecendo, há um problema.</li>
-                    </ul>
-                `
-            },
-            "4-1": {
-                label: "T4 • Episódio 4.1",
-                title: "A Matemática do Sucesso",
-                text: `
-                    <p>Não brigue com o Logaritmo se você erra Regra de Três. 80% da sua nota em Matemática vem de:</p>
-                    <ul class="list-disc pl-6 space-y-2">
-                        <li>Razão e Proporção</li>
-                        <li>Porcentagem</li>
-                        <li>Estatística (Média, Moda e Mediana)</li>
-                        <li>Geometria Plana (Cálculo de Áreas)</li>
-                    </ul>
-                    <p>Em Ciências da Natureza, foque em <strong>Ecologia</strong> em Biologia e <strong>Estequiometria</strong> em Química. São os pilares do ENEM.</p>
-                `
-            },
-            "6-1": {
-                label: "T6 • Episódio 6.1",
-                title: "Biohacking: O Sono do Aprovado",
-                text: `
-                    <p>Dormir menos para estudar mais é o maior erro estratégico possível. Durante o sono <strong>REM</strong>, o seu cérebro faz a "faxina" sináptica e consolida as memórias do dia.</p>
-                    <p><strong>Dica de Performance:</strong> Estude blocos de 50 minutos com 10 de pausa. Beba água constantemente. O cérebro desidratado perde 20% da capacidade de processamento.</p>
-                `
-            },
-            "8-1": {
-                label: "T8 • Episódio 8.1",
-                title: "O Dia da Guerra",
-                text: `
-                    <p>Seja um profissional no dia da prova. Seu checklist mental:</p>
-                    <ul class="space-y-2">
-                        <li>✅ <strong>3 Canetas Pretas:</strong> Corpo transparente. Teste-as antes.</li>
-                        <li>✅ <strong>Documento:</strong> Original. Se for digital, tenha o app oficial baixado e logado.</li>
-                        <li>✅ <strong>Alimento:</strong> Chocolate amargo (energia rápida) e castanhas (energia lenta).</li>
-                        <li>✅ <strong>Estratégia:</strong> Comece pela Redação (Rascunho) -> Linguagens -> Humanas -> Termine a Redação.</li>
-                    </ul>
-                `
-            },
-            "10-1": {
-                label: "T10 • Episódio 10.1",
-                title: "A Grande Estreia",
-                text: `
-                    <p>Parabéns! Você passou. Mas a vaga só é sua após a matrícula. Tenha uma pasta (física e no Google Drive) com:</p>
-                    <ul class="list-disc pl-6 space-y-2">
-                        <li>Certificado de Conclusão do Ensino Médio.</li>
-                        <li>Histórico Escolar.</li>
-                        <li>RG, CPF e Título de Eleitor.</li>
-                        <li>Certificado de Reservista (para homens).</li>
-                        <li>Comprovante de Residência.</li>
-                    </ul>
-                    <p><strong>Não vacile:</strong> Os prazos de matrícula são curtíssimos (geralmente 3 a 5 dias).</p>
-                `
-            }
+        // --- 1. DADOS COMPLETOS (EXPANDIDOS CONFORME SOLICITAÇÃO) ---
+        const catalogData = [
+            { id: "t1", title: "T1: O Sistema", desc: "Regras do jogo, TRI, SISU, FIES e Cotas.", episodes: [
+                { id: "1-1", title: "O Código Secreto TRI", content: "<p>O ENEM não é uma prova de soma, é uma prova de coerência.</p><h3 class='text-white font-bold mt-4'>O Algoritmo:</h3><p>Se você erra questões fáceis e acerta difíceis, sua nota cai. Foque na base.</p>", videoQuery: "como funciona TRI enem", sourceLink: "https://www.gov.br/inep/" },
+                { id: "1-2", title: "SISU, ProUni e FIES", content: "<p>SISU: Públicas. ProUni: Bolsas Privadas. FIES: Financiamento.</p>", videoQuery: "diferença sisu prouni fies", sourceLink: "https://acessounico.mec.gov.br/" },
+                { id: "1-3", title: "Calendário de Guerra", content: "<p>Datas cruciais: Inscrição, Isenção, Provas e Matrícula. Perder uma data é perder o ano.</p>", videoQuery: "calendario enem 2026", sourceLink: "https://enem.inep.gov.br/" }
+            ]},
+            { id: "t2", title: "T2: Neurociência", desc: "Técnicas de aprendizado acelerado.", episodes: [
+                { id: "2-1", title: "Estudo Ativo", content: "<p>Ler passivamente retém 10%. Praticar retém 70%.</p>", videoQuery: "estudo ativo pierluigi piazzi", sourceLink: "#" },
+                { id: "2-2", title: "Pomodoro & Foco", content: "<p>Ciclos de 25min com 5min de pausa aumentam a retenção.</p>", videoQuery: "tecnica pomodoro", sourceLink: "#" },
+                { id: "2-3", title: "Deep Work", content: "<p>Trabalho profundo sem distrações. Desligue o celular.</p>", videoQuery: "deep work cal newport", sourceLink: "#" }
+            ]},
+            { id: "t3", title: "T3: Redação 1000", desc: "O projeto de texto infalível.", episodes: [
+                { id: "3-1", title: "Projeto de Texto", content: "<p>Planeje antes de escrever. Tese e 2 Argumentos.</p>", videoQuery: "projeto de texto redação enem", sourceLink: "#" },
+                { id: "3-2", title: "Fórmula GOMIF", content: "<p>Conclusão: Governo, Objetivo, Meio, Iniciativa, Finalização.</p>", videoQuery: "conclusão gomif exemplo", sourceLink: "#" },
+                { id: "3-3", title: "Conectivos de Ouro", content: "<p>Ademais, Outrossim, Portanto, Entretanto. Use para coesão.</p>", videoQuery: "conectivos redação enem", sourceLink: "#" }
+            ]},
+            { id: "t4", title: "T4: Exatas", desc: "Matemática e Natureza estratégicas.", episodes: [
+                { id: "4-1", title: "Matemática Básica", content: "<p>Regra de 3, Porcentagem e Escalas valem ouro na TRI.</p>", videoQuery: "matematica basica enem", sourceLink: "https://pt.khanacademy.org/" },
+                { id: "4-2", title: "Biologia: Ecologia & Celular", content: "<p>Ciclos, Lixo, Organelas e Membrana. O essencial.</p>", videoQuery: "biologia celular enem", sourceLink: "#" }
+            ]},
+            { id: "t5", title: "T5: Humanas", desc: "Sociedade e História.", episodes: [
+                { id: "5-1", title: "Interpretação & História", content: "<p>Brasil Colônia e Leitura de Texto. A base de Humanas.</p>", videoQuery: "historia brasil enem", sourceLink: "#" }
+            ]},
+            { id: "t6", title: "T6: Saúde Mental", desc: "Biohacking.", episodes: [
+                { id: "6-1", title: "Higiene do Sono", content: "<p>Durma 7h para consolidar memória.</p>", videoQuery: "sono e estudos", sourceLink: "#" },
+                { id: "6-2", title: "Ansiedade", content: "<p>Respiração 4-7-8 para acalmar antes da prova.</p>", videoQuery: "respiração ansiedade", sourceLink: "#" }
+            ]},
+            { id: "t7", title: "T7: Reta Final", desc: "Simulados e revisão.", episodes: [
+                { id: "7-1", title: "Simulados de Guerra", content: "<p>Simule condições reais. Cadeira dura, sem celular.</p>", videoQuery: "como fazer simulado enem", sourceLink: "#" },
+                { id: "7-2", title: "Revisão Relâmpago", content: "<p>Flashcards e Mapas Mentais na última semana.</p>", videoQuery: "revisão enem reta final", sourceLink: "#" }
+            ]},
+            { id: "t8", title: "T8: O Dia da Prova", desc: "Logística.", episodes: [
+                { id: "8-1", title: "Kit Sobrevivência", content: "<p>Caneta preta, água, chocolate, RG.</p>", videoQuery: "o que levar enem", sourceLink: "#" }
+            ]},
+            { id: "t9", title: "T9: Pós-Prova", desc: "Gestão emocional.", episodes: [
+                { id: "9-1", title: "O Luto do Gabarito", content: "<p>Não corrija no dia se estiver ansioso. A TRI muda tudo.</p>", videoQuery: "ansiedade pos enem", sourceLink: "#" }
+            ]},
+            { id: "t10", title: "T10: A Glória", desc: "Matrícula.", episodes: [
+                { id: "10-1", title: "Documentação", content: "<p>Histórico, Renda, Residência. Organize agora.</p>", videoQuery: "documentos matricula faculdade", sourceLink: "#" }
+            ]}
+        ];
+
+        // --- 2. LOGICA PRINCIPAL ---
+        window.onload = () => {
+            renderCatalog(catalogData);
+            loadUserData();
+            updateStreak();
         };
 
-        function loadEpisode(s, e) {
-            const data = contentData[`${s}-${e}`];
-            if(!data) {
-                alert("Este episódio está sendo gravado! Volte em breve.");
-                return;
-            }
+        const renderCatalog = (data) => {
+            const container = document.getElementById('catalogo');
+            container.innerHTML = data.map(season => `
+                <section class="animate-fade-in mb-16">
+                    <div class="flex items-center gap-4 mb-6 border-b border-white/5 pb-2">
+                        <div class="h-8 w-1 bg-rose-600 rounded-full"></div>
+                        <div><h2 class="text-2xl md:text-3xl font-black text-white italic">${season.title}</h2><p class="text-xs text-slate-400">${season.desc}</p></div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${season.episodes.map(ep => `
+                            <div onclick="openEpisode('${season.id}', '${ep.id}')" class="episode-card bg-slate-900 p-6 rounded-2xl border border-white/5 cursor-pointer card-hover group relative overflow-hidden">
+                                <div class="flex justify-between items-start mb-4">
+                                    <span class="text-rose-500 font-black text-[10px] tracking-widest uppercase bg-rose-500/10 px-2 py-1 rounded">EP ${ep.id.split('-')[1]}</span>
+                                    <div class="flex gap-2">
+                                        <i id="fav-icon-${ep.id}" class="fas fa-heart text-slate-700 text-sm hidden"></i>
+                                        <i id="check-${ep.id}" class="far fa-circle text-slate-600 text-lg transition"></i>
+                                    </div>
+                                </div>
+                                <h3 class="text-lg font-bold text-white mb-2 leading-tight pr-6">${ep.title}</h3>
+                                <div class="w-full h-1 bg-slate-800 rounded-full mt-4 overflow-hidden"><div id="prog-${ep.id}" class="h-full bg-green-500 w-0 transition-all duration-700"></div></div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+            `).join('');
+        };
+
+        // --- 3. MODAL LOGIC & NAVIGATION ---
+        const modal = document.getElementById('episode-modal');
+        let currentEp = null;
+        let currentSeasonData = null;
+
+        function openEpisode(sId, eId) {
+            currentSeasonData = catalogData.find(x => x.id === sId);
+            const ep = currentSeasonData.episodes.find(x => x.id === eId);
+            currentEp = ep; // Store full object
             
-            document.getElementById('player-label').innerText = data.label;
-            document.getElementById('player-title').innerText = data.title;
-            document.getElementById('player-content').innerHTML = data.text;
+            // UI Updates
+            document.getElementById('modal-tag').innerText = currentSeasonData.title;
+            document.getElementById('modal-title').innerText = ep.title;
+            document.getElementById('modal-body').innerHTML = ep.content;
+            document.getElementById('modal-link-video').href = `https://www.youtube.com/results?search_query=${encodeURIComponent(ep.videoQuery)}`;
+            document.getElementById('modal-link-source').href = ep.sourceLink;
             
-            const modal = document.getElementById('player-modal');
+            // Notes & Status
+            const notes = JSON.parse(localStorage.getItem('mozer_notes')) || {};
+            document.getElementById('user-notes').value = notes[eId] || "";
+            
+            const progress = JSON.parse(localStorage.getItem('mozer_progress')) || [];
+            updateModalBtn(progress.includes(eId));
+            
+            const favs = JSON.parse(localStorage.getItem('mozer_favs')) || [];
+            updateFavBtn(favs.includes(eId));
+
+            // Deep Link
+            history.pushState({}, '', `?ep=${eId}`);
+            
             modal.classList.remove('hidden');
-            modal.classList.add('flex');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
             document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
-            const modal = document.getElementById('player-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-            document.body.style.overflow = 'auto';
+            modal.classList.add('opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); document.body.style.overflow = 'auto'; history.pushState({}, '', window.location.pathname); }, 300);
+            resetPomodoro();
         }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('player-modal');
-            if (event.target == modal) closeModal();
+        function navigateEpisode(dir) {
+            // Flatten all episodes to find prev/next
+            const allEps = catalogData.flatMap(s => s.episodes.map(e => ({...e, seasonId: s.id})));
+            const currIdx = allEps.findIndex(e => e.id === currentEp.id);
+            const nextIdx = currIdx + dir;
+            
+            if(nextIdx >= 0 && nextIdx < allEps.length) {
+                const target = allEps[nextIdx];
+                openEpisode(target.seasonId, target.id);
+            }
+        }
+
+        function toggleFullscreen() {
+            document.getElementById('modal-content-box').classList.toggle('fullscreen-modal');
+        }
+
+        // --- 4. USER DATA (LOCALSTORAGE) ---
+        function loadUserData() {
+            const progress = JSON.parse(localStorage.getItem('mozer_progress')) || [];
+            const favs = JSON.parse(localStorage.getItem('mozer_favs')) || [];
+            
+            // Update UI Icons
+            progress.forEach(id => {
+                const el = document.getElementById(`check-${id}`);
+                const bar = document.getElementById(`prog-${id}`);
+                if(el) { el.className = "fas fa-check-circle text-green-500 text-lg"; bar.style.width = "100%"; }
+            });
+
+            favs.forEach(id => {
+                const el = document.getElementById(`fav-icon-${id}`);
+                if(el) { el.classList.remove('hidden'); el.classList.add('text-rose-500'); }
+            });
+
+            // Calculate Level & Progress
+            let total = 0; catalogData.forEach(s => total += s.episodes.length);
+            const percent = Math.round((progress.length / total) * 100);
+            
+            document.getElementById('global-progress-line').style.width = `${percent}%`;
+            document.getElementById('mobile-progress-bar').style.width = `${percent}%`;
+            document.getElementById('mobile-progress-text').innerText = `${percent}%`;
+            
+            const lvl = percent > 90 ? "Mestre" : percent > 60 ? "Veterano" : percent > 30 ? "Aprendiz" : "Novato";
+            document.getElementById('user-level').innerText = lvl;
+        }
+
+        // Action: Concluir
+        document.getElementById('btn-concluir').onclick = () => {
+            let progress = JSON.parse(localStorage.getItem('mozer_progress')) || [];
+            const id = currentEp.id;
+            if(!progress.includes(id)) progress.push(id); else progress = progress.filter(x => x !== id);
+            localStorage.setItem('mozer_progress', JSON.stringify(progress));
+            updateModalBtn(progress.includes(id));
+            loadUserData();
+        };
+
+        // Action: Favoritar
+        function toggleFavorite() {
+            let favs = JSON.parse(localStorage.getItem('mozer_favs')) || [];
+            const id = currentEp.id;
+            if(!favs.includes(id)) favs.push(id); else favs = favs.filter(x => x !== id);
+            localStorage.setItem('mozer_favs', JSON.stringify(favs));
+            updateFavBtn(favs.includes(id));
+            loadUserData(); // updates catalog icons
+        }
+
+        function updateModalBtn(isDone) {
+            const btn = document.getElementById('btn-concluir');
+            if(isDone) {
+                btn.className = "w-full py-3 bg-green-600 text-white rounded-lg font-bold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2";
+                btn.innerHTML = '<i class="fas fa-check"></i> Concluído';
+            } else {
+                btn.className = "w-full py-3 bg-slate-800 hover:bg-green-600 text-white rounded-lg font-bold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2 border border-white/5";
+                btn.innerHTML = '<i class="far fa-circle"></i> Concluir';
+            }
+        }
+
+        function updateFavBtn(isFav) {
+            const btn = document.getElementById('btn-fav');
+            if(isFav) {
+                btn.classList.add('text-rose-500');
+                btn.innerHTML = '<i class="fas fa-heart"></i> Favorito';
+            } else {
+                btn.classList.remove('text-rose-500');
+                btn.innerHTML = '<i class="far fa-heart"></i> Favoritar';
+            }
+        }
+
+        function downloadNotes() {
+            const notes = document.getElementById('user-notes').value;
+            if(!notes) return alert("Nada para baixar!");
+            const blob = new Blob([`Notas - ${currentEp.title}:\n\n${notes}`], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Notas_${currentEp.id}.txt`;
+            a.click();
+        }
+
+        // Auto-save Notes
+        document.getElementById('user-notes').addEventListener('input', (e) => {
+            const notes = JSON.parse(localStorage.getItem('mozer_notes')) || {};
+            notes[currentEp.id] = e.target.value;
+            localStorage.setItem('mozer_notes', JSON.stringify(notes));
+        });
+
+        // Filter Favorites
+        function filterFavorites() {
+            const favs = JSON.parse(localStorage.getItem('mozer_favs')) || [];
+            if(favs.length === 0) return alert("Você ainda não tem favoritos!");
+            
+            const filtered = catalogData.map(s => ({
+                ...s, episodes: s.episodes.filter(ep => favs.includes(ep.id))
+            })).filter(s => s.episodes.length > 0);
+            
+            renderCatalog(filtered);
+            loadUserData();
+            window.scrollTo(0, document.getElementById('catalogo').offsetTop);
+        }
+
+        // --- 5. TOOLS & UTILS ---
+        let pomoTime = 25 * 60, pomoInterval, isPomoRunning = false;
+        function togglePomodoro() {
+            const btn = document.getElementById('pomo-btn');
+            if(isPomoRunning) {
+                clearInterval(pomoInterval); isPomoRunning = false; btn.innerText = "RETOMAR";
+            } else {
+                isPomoRunning = true; btn.innerText = "PAUSAR";
+                pomoInterval = setInterval(() => {
+                    pomoTime--;
+                    const m = Math.floor(pomoTime/60).toString().padStart(2,'0');
+                    const s = (pomoTime%60).toString().padStart(2,'0');
+                    document.getElementById('pomo-display').innerText = `${m}:${s}`;
+                    if(pomoTime <= 0) { resetPomodoro(); alert("Tempo esgotado! Descanse."); }
+                }, 1000);
+            }
+        }
+        function resetPomodoro() {
+            clearInterval(pomoInterval); isPomoRunning = false; pomoTime = 25*60;
+            document.getElementById('pomo-display').innerText = "25:00";
+            document.getElementById('pomo-btn').innerText = "INICIAR";
+        }
+
+        function updateStreak() {
+            const today = new Date().toDateString();
+            const last = localStorage.getItem('mozer_last_login');
+            let streak = parseInt(localStorage.getItem('mozer_streak') || 0);
+            
+            if(last !== today) {
+                const yest = new Date(); yest.setDate(yest.getDate()-1);
+                if(last === yest.toDateString()) streak++; else streak = 1;
+                localStorage.setItem('mozer_last_login', today);
+                localStorage.setItem('mozer_streak', streak);
+            }
+            document.getElementById('streak-counter').innerText = streak;
+        }
+
+        function toggleTools() { const m = document.getElementById('tools-modal'); m.classList.toggle('hidden'); m.classList.toggle('flex'); }
+        function switchTool(t) {
+            ['calc','sisu','crono'].forEach(x => document.getElementById(`tool-${x}`).classList.add('hidden'));
+            document.getElementById(`tool-${t}`).classList.remove('hidden');
+        }
+        function calcularMedia() {
+            const v = ['lin','hum','nat','mat','red'].map(k=>parseFloat(document.getElementById(`nota-${k}`).value)||0);
+            document.getElementById('valor-media').innerText = (v.reduce((a,b)=>a+b,0)/5).toFixed(1);
+            document.getElementById('resultado-media').classList.remove('hidden');
+        }
+
+        // UI Toggles
+        function toggleChat() { const c = document.getElementById('chat-window'); c.classList.toggle('translate-y-[110%]'); c.classList.toggle('translate-y-0'); }
+        function toggleMobileMenu() { const m = document.getElementById('mobile-menu'); m.classList.toggle('hidden'); m.classList.toggle('flex'); }
+
+        // Search
+        const handleSearch = (e) => {
+            const term = e.target.value.toLowerCase();
+            if(!term) return renderCatalog(catalogData);
+            const filtered = catalogData.map(s => ({
+                ...s, episodes: s.episodes.filter(ep => ep.title.toLowerCase().includes(term) || ep.content.toLowerCase().includes(term))
+            })).filter(s => s.episodes.length > 0);
+            renderCatalog(filtered); loadUserData();
+        };
+        document.getElementById('desktop-search').addEventListener('input', handleSearch);
+        document.getElementById('mobile-search').addEventListener('input', handleSearch);
+
+        // Chatbot Mock
+        document.getElementById('chat-form').onsubmit = (e) => {
+            e.preventDefault();
+            const inp = document.getElementById('chat-input');
+            const msg = inp.value; if(!msg) return;
+            const box = document.getElementById('chat-messages');
+            box.innerHTML += `<div class="flex gap-3 justify-end"><div class="bg-rose-600 p-3 rounded-lg text-sm max-w-[85%] text-white">${msg}</div></div>`;
+            inp.value = ""; box.scrollTop = box.scrollHeight;
+            setTimeout(() => {
+                box.innerHTML += `<div class="flex gap-3 animate-fade-in"><div class="bg-slate-800 p-3 rounded-lg text-sm text-slate-300 max-w-[85%] border border-white/5">Como sou uma demonstração sem API Key, sugiro que verifique o episódio sobre <strong>${msg.split(' ')[0] || 'Estudos'}</strong> no catálogo!</div></div>`;
+                box.scrollTop = box.scrollHeight;
+            }, 1000);
+        };
+
+        // Deep Link Check
+        const urlParams = new URLSearchParams(window.location.search);
+        const epParam = urlParams.get('ep');
+        if(epParam) {
+            const [sPart] = epParam.split('-');
+            openEpisode(`t${sPart}`, epParam);
         }
     </script>
 </body>
